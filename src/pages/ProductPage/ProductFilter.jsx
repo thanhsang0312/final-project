@@ -8,37 +8,37 @@ const ProductFilter = ({
   handleCateFilterChange,
   handlePriceFilterChange,
 }) => {
-  // useEffect(() => {
-  //   if (typeof noUiSlider === "object") {
-  //     var priceSlider = document.getElementById("price-slider");
+  useEffect(() => {
+    if (typeof noUiSlider === "object") {
+      var priceSlider = document.getElementById("price-slider");
 
-  //     // Check if #price-slider elem is exists if not return
-  //     // to prevent error logs
-  //     if (priceSlider == null) return;
+      // Check if #price-slider elem is exists if not return
+      // to prevent error logs
+      if (priceSlider == null) return;
 
-  //     noUiSlider.create(priceSlider, {
-  //       start: currentPriceRange,
-  //       connect: true,
-  //       step: 50,
-  //       margin: 200,
-  //       range: {
-  //         min: 0,
-  //         max: 1000,
-  //       },
-  //       tooltips: true,
-  //       format: wNumb({
-  //         decimals: 0,
-  //         prefix: "$",
-  //       }),
-  //     });
+      noUiSlider.create(priceSlider, {
+        start: currentPriceRange,
+        connect: true,
+        step: 50,
+        margin: 200,
+        range: {
+          min: 0,
+          max: 1000,
+        },
+        tooltips: true,
+        format: wNumb({
+          decimals: 0,
+          prefix: "$",
+        }),
+      });
 
-  //     // Update Price Range
-  //     priceSlider.noUiSlider.on("update", function (values, handle) {
-  //       $("#filter-price-range").text(values.join(" - "));
-  //       handlePriceFilterChange(values);
-  //     });
-  //   }
-  // }, []);
+      // Update Price Range
+      priceSlider.noUiSlider.on("update", function (values, handle) {
+        $("#filter-price-range").text(values.join(" - "));
+        handlePriceFilterChange(values);
+      });
+    }
+  }, []);
   console.log("activeCategory", activeCategory);
   const _onFilterChange = (id, isChecked) => {
     handleCateFilterChange(id, isChecked);
@@ -74,6 +74,7 @@ const ProductFilter = ({
             <div className="widget-body">
               <div className="filter-items filter-items-count">
                 {categories?.map((category, index) => {
+                  console.log("category", category);
                   return (
                     <div className="filter-item" key={category.id || index}>
                       <Checkbox
@@ -81,7 +82,7 @@ const ProductFilter = ({
                         label={category?.name || ""}
                         checked={activeCategory.includes(category?.id || "")}
                         onChange={(value) => {
-                          _onFilterChange(category?.id, value.target.checked);
+                          _onFilterChange(category.id, value.target.checked);
                         }}
                       />
                       {/* <span className="item-count">{category.sortOrder}</span> */}

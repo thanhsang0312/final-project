@@ -192,45 +192,45 @@ $(document).ready(function () {
     // }
 
     // Product countdown
-    if ($.fn.countdown) {
-        $('.product-countdown').each(function () {
-            var $this = $(this),
-                untilDate = $this.data('until'),
-                compact = $this.data('compact'),
-                dateFormat = (!$this.data('format')) ? 'DHMS' : $this.data('format'),
-                newLabels = (!$this.data('labels-short')) ?
-                    ['Years', 'Months', 'Weeks', 'Days', 'Hours', 'Minutes', 'Seconds'] :
-                    ['Years', 'Months', 'Weeks', 'Days', 'Hours', 'Mins', 'Secs'],
-                newLabels1 = (!$this.data('labels-short')) ?
-                    ['Year', 'Month', 'Week', 'Day', 'Hour', 'Minute', 'Second'] :
-                    ['Year', 'Month', 'Week', 'Day', 'Hour', 'Min', 'Sec'];
+    // if ($.fn.countdown) {
+    //     $('.product-countdown').each(function () {
+    //         var $this = $(this),
+    //             untilDate = $this.data('until'),
+    //             compact = $this.data('compact'),
+    //             dateFormat = (!$this.data('format')) ? 'DHMS' : $this.data('format'),
+    //             newLabels = (!$this.data('labels-short')) ?
+    //                 ['Years', 'Months', 'Weeks', 'Days', 'Hours', 'Minutes', 'Seconds'] :
+    //                 ['Years', 'Months', 'Weeks', 'Days', 'Hours', 'Mins', 'Secs'],
+    //             newLabels1 = (!$this.data('labels-short')) ?
+    //                 ['Year', 'Month', 'Week', 'Day', 'Hour', 'Minute', 'Second'] :
+    //                 ['Year', 'Month', 'Week', 'Day', 'Hour', 'Min', 'Sec'];
 
-            var newDate;
+    //         var newDate;
 
-            // Split and created again for ie and edge 
-            if (!$this.data('relative')) {
-                var untilDateArr = untilDate.split(", "), // data-until 2019, 10, 8 - yy,mm,dd
-                    newDate = new Date(untilDateArr[0], untilDateArr[1] - 1, untilDateArr[2]);
-            } else {
-                newDate = untilDate;
-            }
+    //         // Split and created again for ie and edge 
+    //         if (!$this.data('relative')) {
+    //             var untilDateArr = untilDate.split(", "), // data-until 2019, 10, 8 - yy,mm,dd
+    //                 newDate = new Date(untilDateArr[0], untilDateArr[1] - 1, untilDateArr[2]);
+    //         } else {
+    //             newDate = untilDate;
+    //         }
 
-            $this.countdown({
-                until: newDate,
-                format: dateFormat,
-                padZeroes: true,
-                compact: compact,
-                compactLabels: ['y', 'm', 'w', ' days,'],
-                timeSeparator: ' : ',
-                labels: newLabels,
-                labels1: newLabels1
+    //         $this.countdown({
+    //             until: newDate,
+    //             format: dateFormat,
+    //             padZeroes: true,
+    //             compact: compact,
+    //             compactLabels: ['y', 'm', 'w', ' days,'],
+    //             timeSeparator: ' : ',
+    //             labels: newLabels,
+    //             labels1: newLabels1
 
-            });
-        });
+    //         });
+    //     });
 
-        // Pause
-        // $('.product-countdown').countdown('pause');
-    }
+    //     // Pause
+    //     // $('.product-countdown').countdown('pause');
+    // }
 
     // Quantity Input - Cart page - Product Details pages
     function quantityInputs() {
@@ -287,45 +287,45 @@ $(document).ready(function () {
     // }
 
     // Product Image Zoom plugin - product pages
-    if ($.fn.elevateZoom) {
-        $('#product-zoom').elevateZoom({
-            gallery: 'product-zoom-gallery',
-            galleryActiveClass: 'active',
-            zoomType: "inner",
-            cursor: "crosshair",
-            zoomWindowFadeIn: 400,
-            zoomWindowFadeOut: 400,
-            responsive: true
-        });
+    // if ($.fn.elevateZoom) {
+    //     $('#product-zoom').elevateZoom({
+    //         gallery: 'product-zoom-gallery',
+    //         galleryActiveClass: 'active',
+    //         zoomType: "inner",
+    //         cursor: "crosshair",
+    //         zoomWindowFadeIn: 400,
+    //         zoomWindowFadeOut: 400,
+    //         responsive: true
+    //     });
 
-        // On click change thumbs active item
-        $('.product-gallery-item').on('click', function (e) {
-            $('#product-zoom-gallery').find('a').removeClass('active');
-            $(this).addClass('active');
+    //     // On click change thumbs active item
+    //     $('.product-gallery-item').on('click', function (e) {
+    //         $('#product-zoom-gallery').find('a').removeClass('active');
+    //         $(this).addClass('active');
 
-            e.preventDefault();
-        });
+    //         e.preventDefault();
+    //     });
 
-        var ez = $('#product-zoom').data('elevateZoom');
+    //     var ez = $('#product-zoom').data('elevateZoom');
 
-        // Open popup - product images
-        $('#btn-product-gallery').on('click', function (e) {
-            if ($.fn.magnificPopup) {
-                $.magnificPopup.open({
-                    items: ez.getGalleryList(),
-                    type: 'image',
-                    gallery: {
-                        enabled: true
-                    },
-                    fixedContentPos: false,
-                    removalDelay: 600,
-                    closeBtnInside: false
-                }, 0);
+    //     // Open popup - product images
+    //     $('#btn-product-gallery').on('click', function (e) {
+    //         if ($.fn.magnificPopup) {
+    //             $.magnificPopup.open({
+    //                 items: ez.getGalleryList(),
+    //                 type: 'image',
+    //                 gallery: {
+    //                     enabled: true
+    //                 },
+    //                 fixedContentPos: false,
+    //                 removalDelay: 600,
+    //                 closeBtnInside: false
+    //             }, 0);
 
-                e.preventDefault();
-            }
-        });
-    }
+    //             e.preventDefault();
+    //         }
+    //     });
+    // }
 
     // Product Gallery - product-gallery.html 
     if ($.fn.owlCarousel && $.fn.elevateZoom) {

@@ -35,10 +35,6 @@ const ContactForm = () => {
       <form action="#" className="contact-form mb-3">
         <div className="row">
           <div className="col-sm-6">
-            {/* <input
-              {...register("name", { required: "Please enter your name" })}
-            />
-            <p className="form-error">{errors?.name?.message}</p> */}
             <label className="sr-only">Name</label>
             <input
               type="text"

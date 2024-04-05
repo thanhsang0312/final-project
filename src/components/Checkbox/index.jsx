@@ -1,6 +1,6 @@
 import React from "react";
 
-const Checkbox = ({ label, id, ...rest }) => {
+const Checkbox = ({ label, id, ...props }) => {
   return (
     <div className="custom-control custom-checkbox">
       <input type="checkbox" className="custom-control-input" id={id} />

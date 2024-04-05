@@ -12,6 +12,7 @@ const useProductPage = () => {
 
     const { search } = useLocation();
     const queryObject = queryString.parse(search);
+    console.log('queryObject', queryObject)
     const [_, setSearchParams] = useSearchParams()
 
     const { data: productsData, loading: productsLoading, error: productsError, execute: fetchProducts} = useMutation((query) => productService.getProducts(query || `?limit=${PRODUCT_LIMIT}`));
@@ -21,6 +22,7 @@ const useProductPage = () => {
     const products = productsData?.products || [];
     const productsPagination = productsData?.pagination || [];
     const categories = categoriesData?.data?.products || [];
+    console.log('categories', categories)
 
     useEffect(() => {
       fetchProducts(search)
@@ -62,8 +64,10 @@ const useProductPage = () => {
     //  Handle filter products
     const handleCateFilterChange = (cateId, isChecked) => {
         let newCategoryQuery = Array.isArray(queryObject.category) ? [...queryObject.category, cateId] : [queryObject.category, cateId];
-        if(isChecked) {
-            newCategoryQuery = newCategoryQuery.filter((category) => category !== cateId);
+        if (!isChecked) {
+            newCategoryQuery = newCategoryQuery.filter(
+                (category) => category !== cateId
+            );
         }
 
         if(!cateId) {
@@ -122,7 +126,6 @@ const useProductPage = () => {
         ],
         handleCateFilterChange,
         handlePriceFilterChange,
-        updateQueryString,
     }
 
     const paginationProps = {

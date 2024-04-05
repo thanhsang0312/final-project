@@ -6,30 +6,48 @@ import RegisterForm from "./RegisterForm";
 import classNames from "classnames";
 import Overlay from "../Overlay";
 import { MODAL_TYPE } from "../../const/general";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  handleCloseModal,
+  handleShowModal,
+} from "../../store/reducer/authReducer";
 
 const AuthModalContainer = styled.div`
   display: ${(props) => (props?.isShow ? "block" : "none")};
 `;
 
 const AuthModal = () => {
-  const { showModal, handleShowModal, handleCloseModal } = useAuthContext();
+  // const { showModal, handleShowModal, handleCloseModal } = useAuthContext();
+  // const _onTabChange = (e, tab) => {
+  //   e?.stopPropagation();
+  //   e?.preventDefault();
+  //   handleShowModal?.(tab);
+  // };
+  const dispatch = useDispatch();
+  const { showedModal } = useSelector((state) => state.auth);
   const _onTabChange = (e, tab) => {
     e?.stopPropagation();
     e?.preventDefault();
-    handleShowModal?.(tab);
+    dispatch(handleShowModal(tab));
+  };
+
+  const _onCloseModal = (e) => {
+    e?.stopPropagation();
+    e?.preventDefault();
+    dispatch(handleCloseModal());
   };
   return (
     <>
-      {showModal && (
+      {showedModal && (
         <div
-          className={`modal-backdrop fade ${showModal ? "show" : ""} `}
-          onClick={handleCloseModal}
+          className={`modal-backdrop fade ${showedModal ? "show" : ""} `}
+          onClick={_onCloseModal}
         />
       )}
       <AuthModalContainer
         // className="modal fade"
-        className={classNames("modal fade", { show: !!showModal })}
-        isShow={!!showModal}
+        className={classNames("modal fade", { show: !!showedModal })}
+        isShow={!!showedModal}
         id="signin-modal"
         tabIndex={-1}
         role="dialog"
@@ -43,7 +61,7 @@ const AuthModal = () => {
                 className="close"
                 data-dismiss="modal"
                 aria-label="Close"
-                onClick={handleCloseModal}
+                onClick={_onCloseModal}
               >
                 <span aria-hidden="true">
                   <i className="icon-close" />
@@ -59,7 +77,7 @@ const AuthModal = () => {
                       <a
                         // className="nav-link active"
                         className={classNames("nav-link", {
-                          active: showModal === MODAL_TYPE.signin,
+                          active: showedModal === MODAL_TYPE.signin,
                         })}
                         id="signin-tab"
                         data-toggle="tab"
@@ -77,7 +95,7 @@ const AuthModal = () => {
                     <li className="nav-item">
                       <a
                         className={classNames("nav-link", {
-                          active: showModal === MODAL_TYPE.register,
+                          active: showedModal === MODAL_TYPE.register,
                         })}
                         id="register-tab"
                         data-toggle="tab"
@@ -100,8 +118,8 @@ const AuthModal = () => {
                       role="tabpanel"
                       aria-labelledby="signin-tab"
                     >
-                      {showModal === MODAL_TYPE.signin && <LoginForm />}
-                      {showModal === MODAL_TYPE.register && <RegisterForm />}
+                      {showedModal === MODAL_TYPE.signin && <LoginForm />}
+                      {showedModal === MODAL_TYPE.register && <RegisterForm />}
                     </div>
                   </div>
                 </div>

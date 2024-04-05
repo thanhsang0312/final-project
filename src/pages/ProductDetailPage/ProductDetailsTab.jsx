@@ -18,8 +18,6 @@ const ProductDetailsTab = ({ productDetailData, productDetailReview }) => {
     setActiveTab(tab);
   };
 
-  console.log("productDetailReview", productDetailReview);
-
   return (
     <div className="product-details-tab">
       <ul className="nav nav-pills justify-content-center" role="tablist">
