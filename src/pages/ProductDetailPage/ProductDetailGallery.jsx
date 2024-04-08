@@ -50,11 +50,10 @@ const ProductDetailGallery = ({
         }
       });
     }
-    handleActiveImage(productDetailData?.images?.[0]);
     return () => {
       $(".zoomContainer").remove();
     };
-  }, [productDetailData?.images?.[0]]);
+  }, [productDetailData?.images]);
 
   const onActiveImage = (e, src) => {
     e?.preventDefault();
@@ -68,8 +67,8 @@ const ProductDetailGallery = ({
             {!!productDetailData?.images?.length ? (
               <img
                 id="product-zoom"
-                src={selectedImage}
-                data-zoom-image={selectedImage}
+                src={productDetailData?.images[0]}
+                data-zoom-image={productDetailData?.images[0]}
                 alt="product image"
               />
             ) : (
@@ -86,7 +85,7 @@ const ProductDetailGallery = ({
                 return (
                   <a
                     className={`product-gallery-item ${
-                      selectedImage === image ? "active" : ""
+                      index === 0 ? "active" : ""
                     }`}
                     href="#"
                     data-image={image}

@@ -110,7 +110,6 @@ export const handleLogin = createAsyncThunk(
             });
             thunkApi.dispatch(handleGetProfile());
             message.success("Sign-in successfully!");
-
             return true;
 
         } catch (error) {

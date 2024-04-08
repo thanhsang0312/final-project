@@ -74,7 +74,6 @@ const ProductFilter = ({
             <div className="widget-body">
               <div className="filter-items filter-items-count">
                 {categories?.map((category, index) => {
-                  console.log("category", category);
                   return (
                     <div className="filter-item" key={category.id || index}>
                       <Checkbox

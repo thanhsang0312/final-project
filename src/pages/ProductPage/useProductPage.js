@@ -22,7 +22,6 @@ const useProductPage = () => {
     const products = productsData?.products || [];
     const productsPagination = productsData?.pagination || [];
     const categories = categoriesData?.data?.products || [];
-    console.log('categories', categories)
 
     useEffect(() => {
       fetchProducts(search)
