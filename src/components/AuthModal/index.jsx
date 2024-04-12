@@ -25,7 +25,6 @@ const AuthModal = () => {
   // };
   const dispatch = useDispatch();
   const { showedModal } = useSelector((state) => state.auth);
-  console.log("showedModal", showedModal);
   const _onTabChange = (e, tab) => {
     e?.stopPropagation();
     e?.preventDefault();

@@ -39,7 +39,6 @@ const ProductFilter = ({
       });
     }
   }, []);
-  console.log("activeCategory", activeCategory);
   const _onFilterChange = (id, isChecked) => {
     handleCateFilterChange(id, isChecked);
   };

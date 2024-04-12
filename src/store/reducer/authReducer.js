@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import tokenMethod from "../../utils/token";
 import { message } from "antd";
 import { authService } from "../../services/authServices";
+import { handleGetCart } from "./cartReducer";
 
 const initialState = {
     showedModal: "",
@@ -109,6 +110,7 @@ export const handleLogin = createAsyncThunk(
                 refreshToken,
             });
             thunkApi.dispatch(handleGetProfile());
+            thunkApi.dispatch(handleGetCart());
             message.success("Sign-in successfully!");
             return true;
 

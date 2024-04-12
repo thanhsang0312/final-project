@@ -12,6 +12,7 @@ const InputNumberStyle = styled.input`
     -webkit-appearance: none;
     margin: 0;
   }
+  appearance: textfield;
   -moz-appearance: textfield; //Firefox
 `;
 
@@ -59,36 +60,32 @@ const ProductQuantity = (
   };
 
   return (
-    <div className={className}>
-      <div className="input-group input spinner">
-        {/* <div className="input-group-prepend">
-          <button
-            className="btn btn-decrement-btn-spinner"
-            onClick={onDecrease}
-          >
-            <i className="icon-minus"></i>
-          </button>
-        </div> */}
-        <InputNumberStyle
-          type="number"
-          className="form-control"
-          max={max}
-          value={currentQuantity}
-          onChange={onInputChange}
-          style={{ textAlign: "center" }}
-          {...props}
-        />
-        {/* <div className="input-group-append">
-          <button
-            className="btn btn-increment btn-spinner"
-            type="button"
-            style={{ minWidth: 26 }}
-            onClick={onIncrease}
-          >
-            <i className="icon-plus"></i>
-          </button>
-        </div> */}
-      </div>
+    <div className="input-group input spinner">
+      {/* <div className="input-group-prepend">
+        <button className="btn btn-decrement-btn-spinner" onClick={onDecrease}>
+          <i className="icon-minus"></i>
+        </button>
+      </div> */}
+      <InputNumberStyle
+        type="number"
+        className="form-control"
+        id="qty"
+        max={max}
+        value={currentQuantity}
+        onChange={onInputChange}
+        style={{ textAlign: "center" }}
+        {...props}
+      />
+      {/* <div className="input-group-append">
+        <button
+          className="btn btn-increment btn-spinner"
+          type="button"
+          style={{ minWidth: 26 }}
+          onClick={onIncrease}
+        >
+          <i className="icon-plus"></i>
+        </button>
+      </div> */}
     </div>
   );
 };

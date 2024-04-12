@@ -13,12 +13,10 @@ const LoginForm = () => {
   const { loading } = useSelector((state) => state.auth);
   const { handleShowModal, handleCloseModal } = useAuthContext();
   const {
-    watch,
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  // const [loading, setLoading] = useState(false);
 
   const onSubmit = (data) => {
     if (data && !loading.login) {

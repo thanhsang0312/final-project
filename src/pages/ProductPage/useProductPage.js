@@ -12,7 +12,6 @@ const useProductPage = () => {
 
     const { search } = useLocation();
     const queryObject = queryString.parse(search);
-    console.log('queryObject', queryObject)
     const [_, setSearchParams] = useSearchParams()
 
     const { data: productsData, loading: productsLoading, error: productsError, execute: fetchProducts} = useMutation((query) => productService.getProducts(query || `?limit=${PRODUCT_LIMIT}`));

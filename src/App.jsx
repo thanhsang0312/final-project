@@ -23,8 +23,27 @@ import ProfileDetailPage from "./pages/ProfilePage/ProfileDetailPage";
 import ProfileOrderPage from "./pages/ProfilePage/ProfileOrderPage";
 import ProfileAddressPage from "./pages/ProfilePage/ProfileAddressPage";
 import ProfileWishlistPage from "./pages/ProfilePage/ProfileWishlistPage";
+import { useDispatch } from "react-redux";
+import { message } from "antd";
+import { handleGetProfile } from "./store/reducer/authReducer";
+import { handleGetCart } from "./store/reducer/cartReducer";
+import { useEffect } from "react";
+import tokenMethod from "./utils/token";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    message.config({
+      top: 80,
+      duration: 3,
+      maxCount: 3,
+    });
+    if (tokenMethod.get()) {
+      dispatch(handleGetProfile());
+      dispatch(handleGetCart());
+    }
+  }, []);
+
   return (
     <>
       <BrowserRouter>

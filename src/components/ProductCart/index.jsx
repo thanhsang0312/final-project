@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Empty } from "antd";
 import formatNumber, { formatUSD } from "../../utils/formatCurrency";
+import { useDispatch } from "react-redux";
+import { handleAddCart } from "../../store/reducer/cartReducer";
 
 const ImageWrapper = styled.div`
   width: 100%;
@@ -14,8 +16,30 @@ const ImageWrapper = styled.div`
   background-color: #c1c1c1;
 `;
 
-const ProductCart = ({ title, price, rating, images, discount, id, slug }) => {
+const ProductCart = ({
+  title,
+  price,
+  rating,
+  images,
+  discount,
+  id,
+  slug,
+  color,
+}) => {
   const productDetailPath = PATHS.PRODUCT.INDEX + `/${slug}`;
+  const dispatch = useDispatch();
+
+  const _onAddToCart = (e) => {
+    e?.preventDefault();
+    const addPayload = {
+      addedId: id,
+      addedColor: color?.[0] || "",
+      addedQuantity: 1,
+      addedPrice: price - discount,
+    };
+
+    dispatch(handleAddCart(addPayload));
+  };
   return (
     <div className="product product-2">
       <figure className="product-media">
@@ -47,7 +71,12 @@ const ProductCart = ({ title, price, rating, images, discount, id, slug }) => {
           </a>
         </div>
         <div className="product-action product-action-dark">
-          <a href="#" className="btn-product btn-cart" title="Add to cart">
+          <a
+            href="#"
+            className="btn-product btn-cart"
+            title="Add to cart"
+            onClick={_onAddToCart}
+          >
             <span>add to cart</span>
           </a>
         </div>
