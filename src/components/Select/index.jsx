@@ -1,8 +1,8 @@
 import React from "react";
 
-const Select = ({ options, error, ...rest }) => {
+const Select = ({ options, error, className = "select-custom", ...rest }) => {
   return (
-    <div className="select-custom">
+    <div className={className}>
       <select
         {...rest}
         className={`form-control ${!!error ? "input-error" : ""}`}

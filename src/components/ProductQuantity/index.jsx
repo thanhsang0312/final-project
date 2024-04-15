@@ -36,7 +36,16 @@ const ProductQuantity = (
   }, [currentQuantity]);
 
   const onInputChange = (e) => {
-    setCurrentQuantity(_modifyValue(Number(e.target.value)));
+    setCurrentQuantity(
+      e.target.value !== "" ? _modifyValue(Number(e.target.value)) : ""
+    );
+    // setCurrentQuantity(_modifyValue(Number(e.target.value)));
+  };
+
+  const onInputBlur = () => {
+    if (currentQuantity === "") {
+      setCurrentQuantity(defaultValue);
+    }
   };
 
   const onIncrease = () => {
@@ -60,12 +69,12 @@ const ProductQuantity = (
   };
 
   return (
-    <div className="input-group input spinner">
-      {/* <div className="input-group-prepend">
-        <button className="btn btn-decrement-btn-spinner" onClick={onDecrease}>
+    <div className="input-group input-spinner">
+      <div className="input-group-prepend">
+        <button className="btn btn-decrement btn-spinner" onClick={onDecrease}>
           <i className="icon-minus"></i>
         </button>
-      </div> */}
+      </div>
       <InputNumberStyle
         type="number"
         className="form-control"
@@ -73,10 +82,11 @@ const ProductQuantity = (
         max={max}
         value={currentQuantity}
         onChange={onInputChange}
+        onBlur={onInputBlur}
         style={{ textAlign: "center" }}
         {...props}
       />
-      {/* <div className="input-group-append">
+      <div className="input-group-append">
         <button
           className="btn btn-increment btn-spinner"
           type="button"
@@ -85,7 +95,7 @@ const ProductQuantity = (
         >
           <i className="icon-plus"></i>
         </button>
-      </div> */}
+      </div>
     </div>
   );
 };

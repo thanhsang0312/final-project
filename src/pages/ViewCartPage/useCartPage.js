@@ -1,5 +1,7 @@
 import React, { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { handleRemoveFromCart, handleUpdateCart } from '../../store/reducer/cartReducer';
+import { SHIPPING_OPTIONS } from '../../const/general';
 
 const useCartPage = () => {
     const dispatch = useDispatch();
@@ -34,6 +36,45 @@ const useCartPage = () => {
             };
         };
 
+        if(updateQuantityTimeout.current) {
+            clearTimeout(updateQuantityTimeout.current);
+        }
+
+        updateQuantityTimeout.current = setTimeout(async () => {
+            if(
+                !cartLoading &&
+                updatedQuantity !== "" &&
+                quantity[updatedIndex] !== updatedQuantity
+            ) {
+                try {
+                    const res = await dispatch(handleUpdateCart(getPayload())).unwrap();
+                } catch (error) {
+                    quantityRef.current[updatedIndex]?.reset?.();
+                }
+            }
+        }, 300);
+    };
+
+    const handleRemoveProduct = (removedIndex) => {
+        if (cartLoading || removedIndex < 0) return;
+        dispatch(handleRemoveFromCart({removedIndex}));
+    };
+
+    const handleUpdateShipping = (selectedTypeShip) => {
+        const selectedShipping = SHIPPING_OPTIONS.find((option) => option.value === selectedTypeShip);
+
+        if(selectedShipping) {
+            const updatePayload = {
+                ...cartInfo,
+                product: product?.map((item) => item.id),
+                shipping: {
+                    typeShip: selectedShipping.value,
+                    price: selectedShipping.price,
+                },
+                total: total - (shipping?.price || 0) + selectedShipping.price,
+            };
+            dispatch(handleUpdateCart(updatePayload));
+        }
     }
 
     const cartTableProps = {
@@ -47,9 +88,16 @@ const useCartPage = () => {
         }) || [],
         quantityRef,
         handleUpdateQuantity,
+        handleRemoveProduct,
     }
 
-    const cartSumaryProps = {}
+    const cartSumaryProps = {
+        total,
+        subTotal,
+        shipping,
+        typeShip: shipping?.typeShip,
+        handleUpdateShipping
+    }
   return {
     cartTableProps,
     cartSumaryProps,

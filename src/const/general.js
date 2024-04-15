@@ -45,3 +45,26 @@ export const SORT_OPTION = {
         }
     },
 }
+
+export const SHIPPING_OPTIONS = [
+    {
+        value: "free",
+        label: "Free Shipping",
+        price: 0,
+    }, 
+    {
+        value: "standard",
+        label: "Standard",
+        price: 10,
+    },
+    {
+        value: "express",
+        label: "Express",
+        price: 20,
+    }
+];
+
+export const PAYMENT_METHOD = {
+    cash: "cash",
+    card: "card",
+};

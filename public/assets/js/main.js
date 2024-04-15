@@ -3,7 +3,7 @@ $(document).ready(function () {
     'use strict';
 
     // owlCarousels();
-    quantityInputs();
+    // quantityInputs();
 
     // Header Search Toggle
 
@@ -233,17 +233,17 @@ $(document).ready(function () {
     // }
 
     // Quantity Input - Cart page - Product Details pages
-    function quantityInputs() {
-        if ($.fn.inputSpinner) {
-            $("input[type='number']").inputSpinner({
-                decrementButton: '<i class="icon-minus"></i>',
-                incrementButton: '<i class="icon-plus"></i>',
-                groupClass: 'input-spinner',
-                buttonsClass: 'btn-spinner',
-                buttonsWidth: '26px'
-            });
-        }
-    }
+    // function quantityInputs() {
+    //     if ($.fn.inputSpinner) {
+    //         $("input[type='number']").inputSpinner({
+    //             decrementButton: '<i class="icon-minus"></i>',
+    //             incrementButton: '<i class="icon-plus"></i>',
+    //             groupClass: 'input-spinner',
+    //             buttonsClass: 'btn-spinner',
+    //             buttonsWidth: '26px'
+    //         });
+    //     }
+    // }
 
     // Sticky Content - Sidebar - Social Icons etc..
     // Wrap elements with <div class="sticky-content"></div> if you want to make it sticky
@@ -422,19 +422,19 @@ $(document).ready(function () {
     }
 
     // Checkout discount input - toggle label if input is empty etc...
-    $('#checkout-discount-input').on('focus', function () {
-        // Hide label on focus
-        $(this).parent('form').find('label').css('opacity', 0);
-    }).on('blur', function () {
-        // Check if input is empty / toggle label
-        var $this = $(this);
+    // $('#checkout-discount-input').on('focus', function () {
+    //     // Hide label on focus
+    //     $(this).parent('form').find('label').css('opacity', 0);
+    // }).on('blur', function () {
+    //     // Check if input is empty / toggle label
+    //     var $this = $(this);
 
-        if ($this.val().length !== 0) {
-            $this.parent('form').find('label').css('opacity', 0);
-        } else {
-            $this.parent('form').find('label').css('opacity', 1);
-        }
-    });
+    //     if ($this.val().length !== 0) {
+    //         $this.parent('form').find('label').css('opacity', 0);
+    //     } else {
+    //         $this.parent('form').find('label').css('opacity', 1);
+    //     }
+    // });
 
     // Dashboard Page Tab Trigger
     $('.tab-trigger-link').on('click', function (e) {
