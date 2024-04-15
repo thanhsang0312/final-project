@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { useMainContext } from "../../context/MainContext";
 import { MenuStyled } from "../StyledComponents";
 import { NavLink } from "react-router-dom";
 import PATHS from "../../const/path";
+import classNames from "classnames";
+
+const MENUS = {
+  menu: "menu",
+  cate: "categories",
+};
 
 const MenuMobile = () => {
   const { handleCloseMenuMobile } = useMainContext();
+  const [selectedTab, setSelectedTab] = useState(MENUS.menu);
+  console.log("selectedTab", selectedTab);
+  const _onTabChange = (e, tab) => {
+    e?.preventDefault();
+    setSelectedTab(tab);
+  };
   return (
     <>
       <div className="mobile-menu-overlay" onClick={handleCloseMenuMobile} />
@@ -33,26 +45,22 @@ const MenuMobile = () => {
           <ul className="nav nav-pills-mobile nav-border-anim" role="tablist">
             <li className="nav-item">
               <a
-                className="nav-link active"
-                id="mobile-menu-link"
-                data-toggle="tab"
+                className={`nav-link ${
+                  selectedTab === MENUS.menu ? "active" : ""
+                }`}
                 href="#mobile-menu-tab"
-                role="tab"
-                aria-controls="mobile-menu-tab"
-                aria-selected="true"
+                onClick={(e) => _onTabChange(e, MENUS.menu)}
               >
                 Menu
               </a>
             </li>
             <li className="nav-item">
               <a
-                className="nav-link"
-                id="mobile-cats-link"
-                data-toggle="tab"
+                className={`nav-link ${
+                  selectedTab === MENUS.cate ? "active" : ""
+                }`}
                 href="#mobile-cats-tab"
-                role="tab"
-                aria-controls="mobile-cats-tab"
-                aria-selected="false"
+                onClick={(e) => _onTabChange(e, MENUS.cate)}
               >
                 Categories
               </a>
@@ -60,7 +68,9 @@ const MenuMobile = () => {
           </ul>
           <div className="tab-content">
             <div
-              className="tab-pane fade show active"
+              className={`tab-pane fade ${
+                selectedTab === MENUS.menu ? "show active" : ""
+              }`}
               id="mobile-menu-tab"
               role="tabpanel"
               aria-labelledby="mobile-menu-link"
@@ -88,7 +98,9 @@ const MenuMobile = () => {
             </div>
             {/* .End .tab-pane */}
             <div
-              className="tab-pane fade"
+              className={`tab-pane fade ${
+                selectedTab === MENUS.cate ? "show active" : ""
+              }`}
               id="mobile-cats-tab"
               role="tabpanel"
               aria-labelledby="mobile-cats-link"
