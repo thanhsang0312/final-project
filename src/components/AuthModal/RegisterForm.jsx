@@ -4,70 +4,59 @@ import { REGEX } from "../../const/regex";
 import { useAuthContext } from "../../context/AuthContext";
 import Button from "../Button";
 import Input from "../Input";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { handleRegister } from "../../store/reducer/authReducer";
 
 const RegisterForm = () => {
-  const { handleShowModal, handleCloseModal, handleRegister } =
-    useAuthContext();
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.auth);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
-
-  const [error, setError] = useState({});
-
-  const register = (registerField) => {
-    return {
-      name: registerField,
-      error: error[registerField],
-      value: form[registerField],
-      onChange: (e) => setForm({ ...form, [registerField]: e.target.value }),
-    };
-  };
-
-  const _onSubmit = (e) => {
-    e.preventDefault();
-
-    // start validate
-    const errorObject = {};
-
-    if (!!!form.email) {
-      errorObject.email = "Please enter your email!";
-    } else if (!REGEX["email"].test(form.email)) {
-      errorObject.email = "Please enter a valid email";
-    }
-
-    if (!!!form.password) {
-      errorObject.password = "Please enter your password";
-    }
-
-    setError(errorObject);
-    // end validate
-
-    if (Object.keys(errorObject)?.length > 0) {
-      console.log("Submit error", errorObject);
-    } else {
-      setLoading(true);
-      console.log("Submit success", form);
-      handleRegister({ ...form }, () => {
-        setTimeout(() => {
-          setLoading(false);
-        }, 300);
-      });
+  const _onSubmit = (data) => {
+    console.log("data", data);
+    if (data && !loading.register) {
+      try {
+        dispatch(
+          handleRegister({ ...data, firstName: "", lastName: "" })
+        ).unwrap();
+      } catch (error) {
+        console.log("error", error);
+      }
     }
   };
 
   return (
     <>
-      <form action="#" onSubmit={_onSubmit}>
+      <form action="#" onSubmit={handleSubmit(_onSubmit)}>
         <Input
           label="Your email address "
           required
-          {...register("email")}
+          rest={{
+            ...register("email", {
+              require: "Please enter your email",
+              pattern: {
+                value: REGEX.email,
+                message: "Please enter correct email!",
+              },
+            }),
+          }}
+          error={errors?.email?.message}
         ></Input>
-        <Input label="Password " required {...register("password")}></Input>
+        <Input
+          type="password"
+          label="Password "
+          required
+          rest={{
+            ...register("password", {
+              required: "Please enter your password!",
+            }),
+          }}
+        ></Input>
         <div className="form-footer">
           <Button type="submit" variant="primary">
             SIGN UP

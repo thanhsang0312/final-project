@@ -4,14 +4,14 @@ import { useAuthContext } from "../../context/AuthContext";
 import tokenMethod from "../../utils/token";
 import { Link, useNavigate } from "react-router-dom";
 import PATHS from "../../const/path";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { handleLogout, handleShowModal } from "../../store/reducer/authReducer";
 
 const HeaderTop = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isLogged = !!!tokenMethod.get();
-  const { profile } = useAuthContext();
+  const { profile } = useSelector((state) => state.auth);
   const { firstName, email } = profile || {};
   const _onShowAuthModal = (e) => {
     e?.stopPropagation();
@@ -54,7 +54,7 @@ const HeaderTop = () => {
               <li>
                 <a href="#" className="top-link-menu">
                   <i className="icon-user" />
-                  Tran Nghia{" "}
+                  {firstName}{" "}
                 </a>
                 <ul>
                   <li>

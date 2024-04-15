@@ -1,6 +1,13 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import PATHS from "../../const/path";
 
 const ProfileAddressPage = () => {
+  const { profile } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const { firstName, phone, email, province, district, ward, street } =
+    profile || {};
   return (
     <div
       className="tab-pane fade show active"
@@ -17,13 +24,14 @@ const ProfileAddressPage = () => {
             <div className="card-body">
               <h3 className="card-title">Billing Address</h3>
               <p>
-                <strong>Fullname:</strong> Tran Nghia <br />
-                <strong>Email:</strong> trannghia@gmail.com <br />
-                <strong>Phone number:</strong> 098 9596 912 <br />
+                <strong>Fullname:</strong> {firstName} <br />
+                <strong>Email:</strong> {email} <br />
+                <strong>Phone number:</strong> {phone}
                 <br />
-                <a href="#">
+                <br />
+                <Link to={PATHS.PROFILE.INDEX}>
                   Edit <i className="icon-edit" />
-                </a>
+                </Link>
               </p>
             </div>
           </div>
@@ -33,11 +41,11 @@ const ProfileAddressPage = () => {
             <div className="card-body">
               <h3 className="card-title">Shipping Address</h3>
               <p>
-                Cecilia Chapman 711-2880 Nulla St. Mankato Mississippi <br />
+                {street} <br />
                 <br />
-                <a href="#">
+                <Link to={PATHS.PROFILE.INDEX}>
                   Edit <i className="icon-edit" />
-                </a>
+                </Link>
               </p>
             </div>
           </div>

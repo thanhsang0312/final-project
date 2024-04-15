@@ -25,7 +25,7 @@ const ProfileWishlistPage = () => {
                 <figure className="product-media">
                   <a href="#">
                     <img
-                      src="assets/images/demos/demo-3/products/product-4.jpg"
+                      src="/assets/images/demos/demo-3/products/product-4.jpg"
                       alt="Product image"
                     />
                   </a>
@@ -57,7 +57,7 @@ const ProfileWishlistPage = () => {
                 <figure className="product-media">
                   <a href="#">
                     <img
-                      src="assets/images/demos/demo-3/products/product-5.jpg"
+                      src="/assets/images/demos/demo-3/products/product-5.jpg"
                       alt="Product image"
                     />
                   </a>
@@ -89,7 +89,7 @@ const ProfileWishlistPage = () => {
                 <figure className="product-media">
                   <a href="#">
                     <img
-                      src="assets/images/demos/demo-3/products/product-6.jpg"
+                      src="/assets/images/demos/demo-3/products/product-6.jpg"
                       alt="Product image"
                     />
                   </a>

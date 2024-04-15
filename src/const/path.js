@@ -17,7 +17,8 @@ const PATHS = {
         INDEX: PROFILE_PATH,
         PROFILE_ORDER: PROFILE_PATH + "/order",
         PROFILE_WISHLIST: PROFILE_PATH + "/wishlist",
-        PROFILE_ADDRESS: PROFILE_PATH + "/address"
+        PROFILE_ADDRESS: PROFILE_PATH + "/address",
+        PROFILE_CHANGE_PASS: PROFILE_PATH + "/change-password"
     },
     FAQ: "/faq",
     PAYMENT: "/payment-method",

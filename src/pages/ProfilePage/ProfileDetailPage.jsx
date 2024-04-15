@@ -1,38 +1,112 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useAuthContext } from "../../context/AuthContext";
-import { set, useForm } from "react-hook-form";
-import { message } from "antd";
+import { Controller, set, useForm } from "react-hook-form";
+import { Select, message } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import useAddress from "../../hooks/useAddress";
+import Input from "../../components/Input";
+import { REGEX } from "../../const/regex";
+import styled from "styled-components";
+import { authService } from "../../services/authServices";
+import { handleGetProfile } from "../../store/reducer/authReducer";
+import { removeAccents } from "../../utils/formatCurrency";
+import moment from "moment";
+
+const AddressWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
 
 const ProfileDetailPage = () => {
+  const { profile } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const { firstName, phone, email, province, district, ward, street } =
+    profile || {};
+  const {
+    provinceID,
+    provinces,
+    districtID,
+    districts,
+    wardID,
+    wards,
+    handleProvinceChange,
+    handleDistrictChange,
+    handleWardChange,
+  } = useAddress();
+
+  const _onProvinceChange = (changeId) => {
+    handleProvinceChange?.(changeId);
+    reset({
+      ...getValues(),
+      province: changeId,
+      district: undefined,
+      ward: undefined,
+    });
+  };
+
+  const _onDistrictChange = (changeId) => {
+    handleDistrictChange?.(changeId);
+    reset({
+      ...getValues(),
+      district: changeId,
+      ward: undefined,
+    });
+  };
+
+  const _onWardChange = (changeId) => {
+    handleWardChange?.(changeId);
+    reset({
+      ...getValues(),
+      ward: changeId,
+    });
+  };
+
   const {
     register,
     handleSubmit,
+    reset,
+    getValues,
+    control,
     formState: { errors },
   } = useForm();
-  console.log("errors", errors);
-  const { profile, handleUpdateProfile } = useAuthContext();
-  const initialInfo = useRef({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    facebookURL: "",
-    wesite: "",
-    introduce: "",
-    birthday: "",
-    street: "",
-    province: "",
-    district: "",
-    ward: "",
-    password: "",
-    newPassword: "",
-    image: "",
-  });
 
-  const _onSubmit = (data) => {
-    console.log(data);
-    if (!isFormChanged) return;
-    message.success("Update profile successfully!");
+  useEffect(() => {
+    if (!profile) return;
+    reset?.({
+      firstName,
+      phone,
+      email,
+      province,
+      district,
+      ward,
+      street,
+      birthday: profile?.birthday
+        ? moment(profile?.birthday || "01-01-2000")
+            .format("YYYY/MM/DD")
+            .replaceAll("/", "-")
+        : "",
+    });
+    handleProvinceChange?.(province);
+    handleDistrictChange?.(district);
+    handleWardChange?.(ward);
+  }, [profile]);
+
+  const _onSubmit = async (data) => {
+    console.log("data", data);
+    const payload = {
+      ...data,
+      lastName: profile?.lastName,
+    };
+    try {
+      const res = await authService.updateProfile(payload);
+      if (res) {
+        message.success("Update profile successfully!");
+        dispatch(handleGetProfile());
+      }
+    } catch (error) {
+      message.error("Update failed!");
+    }
   };
 
   return (
@@ -45,83 +119,185 @@ const ProfileDetailPage = () => {
       <form action="#" className="account-form">
         <div className="row">
           <div className="col-sm-6">
-            <label>Full Name *</label>
-            <input
+            <Input
               type="text"
-              className={`form-control ${errors?.name ? "input-error" : ""}`}
-              defaultValue="Tran"
-              {...register("name", {
-                required: "Please enter your name!",
-              })}
-            />
-            {errors?.name?.message && (
-              <p className="form-error">{errors?.name?.message}</p>
-            )}
-          </div>
-          <div className="col-sm-6">
-            <label>Email address *</label>
-            <input
-              type="email"
-              className="form-control"
-              defaultValue="trannghia@gmail.com"
-              disabled
               required
+              label="Name"
+              rest={{
+                ...register("firstName", {
+                  required: "Please enter your name!",
+                }),
+              }}
+              error={errors?.firstName?.message || ""}
+            />
+          </div>
+          <div className="col-sm-6">
+            <Input
+              type="text"
+              required
+              disabled
+              label="Email Address"
+              rest={{
+                ...register("email", {
+                  required: "Please enter your email!",
+                  pattern: {
+                    value: REGEX.email,
+                    message: "Please enter correct email!",
+                  },
+                }),
+              }}
+              error={errors?.email?.message || ""}
             />
           </div>
         </div>
         <div className="row">
           <div className="col-sm-6">
-            <label>Phone number *</label>
-            <input type="text" className="form-control" required />
+            <Input
+              type="text"
+              required
+              label="Phone Number"
+              rest={{
+                ...register("phone", {
+                  required: "Please enter your phone number!",
+                  pattern: {
+                    value: REGEX.phone,
+                    message: "Please enter a valid phone number!",
+                  },
+                }),
+              }}
+              error={errors?.phone?.message || ""}
+            />
           </div>
           <div className="col-sm-6">
-            <label>Ngày sinh *</label>
-            <input type="date" className="form-control" required />
+            <Input
+              type="date"
+              required
+              label="Ngày sinh"
+              rest={{
+                ...register("birthday", {
+                  required: "Please enter your birthday!",
+                }),
+              }}
+              error={errors?.birthday?.message || ""}
+            />
           </div>
         </div>
         <div className="row">
-          <div className="col-sm-4">
+          <AddressWrapper className="col-sm-4">
             <label>Province/City *</label>
-            <div className="select-custom">
-              <select
-                className="form-control form-select"
-                id="city"
-                aria-label="Default select example"
-              >
-                <option selected />
-              </select>
-            </div>
-          </div>
-          <div className="col-sm-4">
+            <Controller
+              name="province"
+              control={control}
+              rules={{
+                required: "This field cannot be empty!",
+              }}
+              render={({ formState: { errors } }) => {
+                return (
+                  <>
+                    <Select
+                      className="customSelect"
+                      suffixIcon={<></>}
+                      showSearch
+                      placeholder="Please select Province/City"
+                      options={provinces}
+                      value={provinceID}
+                      optionFilterProp="children"
+                      onChange={_onProvinceChange}
+                      filterOption={(input, option) =>
+                        removeAccents(option?.label ?? "")
+                          .toLowerCase()
+                          .includes(removeAccents(input.toLowerCase()))
+                      }
+                    />
+                    <p className="form-error" style={{ minHeight: 23 }}>
+                      {errors?.province?.message || ""}
+                    </p>
+                  </>
+                );
+              }}
+            />
+          </AddressWrapper>
+          <AddressWrapper className="col-sm-4">
             <label>District/Town *</label>
-            <div className="select-custom">
-              <select className="form-control form-select" id="district">
-                <option selected />
-              </select>
-            </div>
-          </div>
-          <div className="col-sm-4">
+            <Controller
+              name="district"
+              control={control}
+              rules={{
+                required: "This field cannot be empty!",
+              }}
+              render={({ formState: { errors } }) => {
+                return (
+                  <>
+                    <Select
+                      className="customSelect"
+                      suffixIcon={<></>}
+                      showSearch
+                      placeholder="Please select District/Town"
+                      options={districts}
+                      value={districtID}
+                      optionFilterProp="children"
+                      onChange={_onDistrictChange}
+                      filterOption={(input, option) =>
+                        removeAccents(option?.label ?? "")
+                          .toLowerCase()
+                          .includes(removeAccents(input.toLowerCase()))
+                      }
+                    />
+                    <p className="form-error" style={{ minHeight: 23 }}>
+                      {errors?.district?.message || ""}
+                    </p>
+                  </>
+                );
+              }}
+            />
+          </AddressWrapper>
+          <AddressWrapper className="col-sm-4">
             <label>Ward *</label>
-            <div className="select-custom">
-              <select className="form-control form-select" id="ward">
-                <option selected />
-              </select>
-            </div>
-          </div>
+            <Controller
+              name="ward"
+              control={control}
+              rules={{
+                required: "This field cannot be empty!",
+              }}
+              render={({ formState: { errors } }) => {
+                return (
+                  <>
+                    <Select
+                      className="customSelect"
+                      suffixIcon={<></>}
+                      showSearch
+                      placeholder="Please select Ward"
+                      options={wards}
+                      value={wardID}
+                      optionFilterProp="children"
+                      onChange={_onWardChange}
+                      filterOption={(input, option) =>
+                        removeAccents(option?.label ?? "")
+                          .toLowerCase()
+                          .includes(removeAccents(input.toLowerCase()))
+                      }
+                    />
+                    <p className="form-error" style={{ minHeight: 23 }}>
+                      {errors?.ward?.message || ""}
+                    </p>
+                  </>
+                );
+              }}
+            />
+          </AddressWrapper>
         </div>
-        <label>Street address *</label>
-        <input
-          type="email"
-          className="form-control"
-          defaultValue="30 Ba Thang Hai St."
+        <Input
+          type="text"
           required
+          label="Street"
+          rest={{
+            ...register("street", {
+              required: "Please enter your address!",
+            }),
+          }}
+          error={errors?.street?.message}
         />
-        <label>Current password (leave blank to leave unchanged)</label>
-        <input type="password" className="form-control" />
-        <label>New password (leave blank to leave unchanged)</label>
-        <input type="password" className="form-control" />
-        <label>Confirm new password</label>
-        <input type="password" className="form-control mb-2" />
+
         <button
           type="submit"
           className="btn btn-outline-primary-2"

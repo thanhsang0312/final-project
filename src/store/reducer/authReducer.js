@@ -40,7 +40,7 @@ export const authSlice = createSlice({
             state.loading.register = true;
         })
         .addCase(handleRegister.rejected, (state) => {
-            state.loading.register = falses
+            state.loading.register = false;
         })
         .addCase(handleLogin.fulfilled, (state) => {
             state.loading.login = false;

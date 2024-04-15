@@ -181,7 +181,10 @@ const CheckoutForm = ({ handleCheckout }) => {
                 rest={{
                   ...register("phone", {
                     required: "This field cannot be empty!",
-                    pattern: REGEX.phone,
+                    pattern: {
+                      value: REGEX.phone,
+                      message: "Please enter a valid phone number!",
+                    },
                   }),
                 }}
                 error={errors?.firstName?.message || ""}
@@ -195,7 +198,10 @@ const CheckoutForm = ({ handleCheckout }) => {
                 rest={{
                   ...register("email", {
                     required: "This field cannot be empty!",
-                    pattern: REGEX.email,
+                    pattern: {
+                      value: REGEX.email,
+                      message: "Please enter correct email!",
+                    },
                   }),
                 }}
                 error={errors?.firstName?.message || ""}

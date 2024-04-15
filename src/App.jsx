@@ -29,6 +29,7 @@ import { handleGetProfile } from "./store/reducer/authReducer";
 import { handleGetCart } from "./store/reducer/cartReducer";
 import { useEffect } from "react";
 import tokenMethod from "./utils/token";
+import ProfileChangePassword from "./pages/ProfilePage/ProfileChangePassword";
 
 function App() {
   const dispatch = useDispatch();
@@ -87,6 +88,10 @@ function App() {
                 <Route
                   path={PATHS.PROFILE.PROFILE_WISHLIST}
                   element={<ProfileWishlistPage />}
+                />
+                <Route
+                  path={PATHS.PROFILE.PROFILE_CHANGE_PASS}
+                  element={<ProfileChangePassword />}
                 />
               </Route>
             </Route>

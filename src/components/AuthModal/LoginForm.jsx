@@ -11,7 +11,6 @@ import { handleLogin } from "../../store/reducer/authReducer";
 const LoginForm = () => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.auth);
-  const { handleShowModal, handleCloseModal } = useAuthContext();
   const {
     register,
     handleSubmit,
