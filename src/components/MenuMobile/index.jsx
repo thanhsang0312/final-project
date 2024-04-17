@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useMainContext } from "../../context/MainContext";
 import { MenuStyled } from "../StyledComponents";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import PATHS from "../../const/path";
 import classNames from "classnames";
+import useQuery from "../../hooks/useQuery";
+import useProductPage from "../../pages/ProductPage/useProductPage";
+import { productService } from "../../services/productServices";
 
 const MENUS = {
   menu: "menu",
@@ -13,10 +16,22 @@ const MENUS = {
 const MenuMobile = () => {
   const { handleCloseMenuMobile } = useMainContext();
   const [selectedTab, setSelectedTab] = useState(MENUS.menu);
-  console.log("selectedTab", selectedTab);
+  const [selected, setSelected] = useState("TV");
+  const navigate = useNavigate();
+
+  const { data: categoriesData } = useQuery(productService.getCategories);
+  const categories = categoriesData?.data?.products || [];
+  console.log("categories", categories);
+
   const _onTabChange = (e, tab) => {
     e?.preventDefault();
     setSelectedTab(tab);
+  };
+
+  const _onClickToCate = (cateId, cateName) => {
+    navigate(PATHS.PRODUCT.INDEX + `?category=${cateId}`);
+    setSelected(cateName);
+    handleCloseMenuMobile();
   };
   return (
     <>
@@ -107,7 +122,22 @@ const MenuMobile = () => {
             >
               <nav className="mobile-cats-nav">
                 <ul className="mobile-cats-menu">
-                  <li>
+                  {categories?.length > 0 &&
+                    categories.map((category, index) => {
+                      const { name, id } = category || {};
+                      return (
+                        <li key={id || index}>
+                          <a
+                            className="mobile-cats-lead"
+                            href="#"
+                            onClick={() => _onClickToCate(id, name)}
+                          >
+                            {name}
+                          </a>
+                        </li>
+                      );
+                    })}
+                  {/* <li>
                     <a className="mobile-cats-lead" href="#">
                       TV
                     </a>
@@ -123,7 +153,7 @@ const MenuMobile = () => {
                   </li>
                   <li>
                     <a href="#">Accessories</a>
-                  </li>
+                  </li> */}
                 </ul>
                 {/* End .mobile-cats-menu */}
               </nav>

@@ -7563,6 +7563,8 @@ p {
 
 .form-group {
     margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .form-group .form-control,

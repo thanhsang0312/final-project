@@ -1,6 +1,33 @@
 import React from "react";
+import styled from "styled-components";
+import useBlogPage from "./useBlogPage";
+import moment from "moment";
 
-const FilterBlog = () => {
+const BlogCateWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+const TextOverflow = styled.h4`
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const FilterBlog = ({
+  categories,
+  popularBlogs,
+  tags,
+  handleCateFilterChange,
+}) => {
+  const { blogs: blogCates } = categories || {};
+  const _onFilterChange = (id, isSelected) => {
+    handleCateFilterChange(id, isSelected);
+  };
+
+  console.log("tags", tags);
   return (
     <aside className="col-lg-3">
       <div className="sidebar">
@@ -25,90 +52,52 @@ const FilterBlog = () => {
           </form>
         </div>
         <div className="widget widget-cats">
-          <h3 className="widget-title">Categories</h3>
+          <BlogCateWrapper>
+            <h3 className="widget-title">Categories</h3>
+            <a
+              href="#"
+              className="sidebar-filter-clear"
+              onClick={() => handleCateFilterChange("")}
+            >
+              Clean All
+            </a>
+          </BlogCateWrapper>
           <ul>
-            <li>
-              <a href="#">
-                Lifestyle <span>3</span>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                Shopping <span>3</span>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                Fashion <span>1</span>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                Travel <span>3</span>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                Hobbies <span>2</span>
-              </a>
-            </li>
+            {blogCates?.length > 0 &&
+              blogCates.map((blog, index) => {
+                const { id, name } = blog || {};
+                return (
+                  <li key={id || index}>
+                    <a href="#" onClick={() => _onFilterChange(id)}>
+                      {name}
+                    </a>
+                  </li>
+                );
+              })}
           </ul>
         </div>
         <div className="widget">
           <h3 className="widget-title">Popular Posts</h3>
           <ul className="posts-list">
-            <li>
-              <figure>
-                <a href="#">
-                  <img src="assets/images/blog/sidebar/post-1.jpg" alt="post" />
-                </a>
-              </figure>
-              <div>
-                <span>Nov 22, 2018</span>
-                <h4>
-                  <a href="#">Aliquam tincidunt mauris eurisus.</a>
-                </h4>
-              </div>
-            </li>
-            <li>
-              <figure>
-                <a href="#">
-                  <img src="assets/images/blog/sidebar/post-2.jpg" alt="post" />
-                </a>
-              </figure>
-              <div>
-                <span>Nov 19, 2018</span>
-                <h4>
-                  <a href="#">Cras ornare tristique elit.</a>
-                </h4>
-              </div>
-            </li>
-            <li>
-              <figure>
-                <a href="#">
-                  <img src="assets/images/blog/sidebar/post-3.jpg" alt="post" />
-                </a>
-              </figure>
-              <div>
-                <span>Nov 12, 2018</span>
-                <h4>
-                  <a href="#">Vivamus vestibulum ntulla nec ante.</a>
-                </h4>
-              </div>
-            </li>
-            <li>
-              <figure>
-                <a href="#">
-                  <img src="assets/images/blog/sidebar/post-4.jpg" alt="post" />
-                </a>
-              </figure>
-              <div>
-                <span>Nov 25, 2018</span>
-                <h4>
-                  <a href="#">Donec quis dui at dolor tempor interdum.</a>
-                </h4>
-              </div>
-            </li>
+            {popularBlogs?.length > 0 &&
+              popularBlogs.map((blog, index) => {
+                const { updateAt, name, image } = blog || {};
+                return (
+                  <li>
+                    <figure>
+                      <a href="#">
+                        <img src={image} alt={name} />
+                      </a>
+                    </figure>
+                    <div>
+                      <span>{moment(updateAt).format("MMM Do YY")}</span>
+                      <TextOverflow>
+                        <a href="#">{name}</a>
+                      </TextOverflow>
+                    </div>
+                  </li>
+                );
+              })}
           </ul>
         </div>
         <div className="widget widget-banner-sidebar">
@@ -122,13 +111,15 @@ const FilterBlog = () => {
         <div className="widget">
           <h3 className="widget-title">Browse Tags</h3>
           <div className="tagcloud">
-            <a href="#">fashion</a>
-            <a href="#">style</a>
-            <a href="#">women</a>
-            <a href="#">photography</a>
-            <a href="#">travel</a>
-            <a href="#">shopping</a>
-            <a href="#">hobbies</a>
+            {tags?.length > 0 &&
+              tags.map((tag, index) => {
+                const { name, id } = tag || {};
+                return (
+                  <a href="#" key={id}>
+                    {name}
+                  </a>
+                );
+              })}
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import tokenMethod from "../../utils/token";
 import { message } from "antd";
 import { authService } from "../../services/authServices";
-import { handleGetCart } from "./cartReducer";
+import { clearCart, handleGetCart } from "./cartReducer";
 
 const initialState = {
     showedModal: "",

@@ -4,6 +4,16 @@ import { useForm } from "react-hook-form";
 import { REGEX } from "../../const/regex";
 import { message } from "antd";
 import { subscribeService } from "../../services/subscribeServices";
+import styled from "styled-components";
+import TextArea from "../../components/TextArea";
+
+const ContactFormWrapper = styled.form`
+  .row {
+    .col-sm-6:first-child {
+      /* margin-left: -10px; */
+    }
+  }
+`;
 
 const ContactForm = () => {
   const {
@@ -11,7 +21,6 @@ const ContactForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  console.log("error", errors);
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -32,66 +41,60 @@ const ContactForm = () => {
       <p className="mb-2">
         Use the form below to get in touch with the sales team
       </p>
-      <form action="#" className="contact-form mb-3">
+      <ContactFormWrapper action="#" className="contact-form mb-3">
         <div className="row">
           <div className="col-sm-6">
             <label className="sr-only">Name</label>
-            <input
+            <Input
               type="text"
-              className={`form-control ${
-                errors?.name?.message ? "input-error" : ""
-              }`}
-              // id="cname"
               placeholder="Name *"
-              {...register("name", { required: "Please enter your name!" })}
+              rest={{
+                ...register("name", {
+                  required: "Please enter your name!",
+                }),
+              }}
+              error={errors?.name?.message}
             />
-            {errors?.name?.message && (
-              <p className="form-error">{errors?.name?.message}</p>
-            )}
           </div>
           <div className="col-sm-6">
             <label className="sr-only">Email</label>
-            <input
-              type="email"
-              className="form-control"
-              // id="cemail"
+            <Input
+              type="text"
               placeholder="Email *"
-              {...register("email", {
-                required: "Please enter your email!",
-                pattern: {
-                  value: REGEX.email,
-                  message: "Please enter a valid email!",
-                },
-              })}
+              rest={{
+                ...register("email", {
+                  required: "Please enter your email!",
+                  pattern: {
+                    value: REGEX.email,
+                    message: "Please enter a valid email!",
+                  },
+                }),
+              }}
+              error={errors?.email?.message}
             />
-            {errors?.email?.message && (
-              <p className="form-error">{errors?.email?.message}</p>
-            )}
           </div>
         </div>
         <div className="row">
           <div className="col-sm-6">
             <label className="sr-only">Phone</label>
-            <input
-              type="tel"
-              className="form-control"
-              // id="cphone"
-              placeholder="Phone"
-              {...register("phone", {
-                required: "Please enter your phone number!",
-                pattern: {
-                  value: REGEX.phone,
-                  message: "Please enter a valid phone number",
-                },
-              })}
+            <Input
+              type="text"
+              placeholder="Phone number *"
+              rest={{
+                ...register("phone", {
+                  required: "Please enter your phone number!",
+                  pattern: {
+                    value: REGEX.phone,
+                    message: "Please enter correct your number phone!",
+                  },
+                }),
+              }}
+              error={errors?.phone?.message}
             />
-            {errors?.phone?.message && (
-              <p className="form-error">{errors?.phone?.message}</p>
-            )}
           </div>
           <div className="col-sm-6">
             <label className="sr-only">Subject</label>
-            <input type="text" className="form-control" placeholder="Subject" />
+            <Input type="text" placeholder="Subject" />
           </div>
         </div>
         <div className="row">
@@ -121,7 +124,7 @@ const ContactForm = () => {
           <span>SUBMIT</span>
           <i className="icon-long-arrow-right" />
         </button>
-      </form>
+      </ContactFormWrapper>
     </div>
   );
 };

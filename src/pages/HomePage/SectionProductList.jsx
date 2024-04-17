@@ -33,10 +33,10 @@ const SectionProductList = ({
             className="nav nav-pills nav-border-anim justify-content-center"
             role="tablist"
           >
-            {categories?.map((category) => {
-              const { name, slug } = category || {};
+            {categories?.map((category, index) => {
+              const { name, slug, id } = category || {};
               return (
-                <li className="nav-item">
+                <li className="nav-item" key={id || index}>
                   <a
                     // className="nav-link active"
                     className={classNames("nav-link", {

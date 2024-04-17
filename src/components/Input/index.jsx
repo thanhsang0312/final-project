@@ -7,6 +7,7 @@ const Input = ({
   renderInput,
   type = "text",
   rest,
+  placeholder,
 }) => {
   return (
     <div className="form-group">
@@ -16,6 +17,7 @@ const Input = ({
           type={type}
           {...rest}
           className={`form-control ${error ? "input-error" : ""}`}
+          placeholder={placeholder}
         />
       )}
       {error && <p className="form-error">{error}</p>}

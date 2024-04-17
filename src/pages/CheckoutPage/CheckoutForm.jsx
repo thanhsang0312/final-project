@@ -221,7 +221,7 @@ const CheckoutForm = ({ handleCheckout }) => {
                   return (
                     <>
                       <Select
-                        className="customSelect"
+                        className="customSelect form-control"
                         suffixIcon={<></>}
                         showSearch
                         placeholder="Please select Province/City"
@@ -255,7 +255,7 @@ const CheckoutForm = ({ handleCheckout }) => {
                   return (
                     <>
                       <Select
-                        className="customSelect"
+                        className="customSelect form-control"
                         suffixIcon={<></>}
                         showSearch
                         placeholder="Please select District/Town"
@@ -289,7 +289,7 @@ const CheckoutForm = ({ handleCheckout }) => {
                   return (
                     <>
                       <Select
-                        className="customSelect"
+                        className="customSelect form-control"
                         suffixIcon={<></>}
                         showSearch
                         placeholder="Please select Ward"

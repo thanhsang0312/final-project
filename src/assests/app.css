@@ -1,0 +1,8 @@
+:where(.css-dev-only-do-not-override-42nv3w).ant-select-outlined:not(.ant-select-customize-input) .ant-select-selector {
+    border: none;
+    background: initial;
+}
+
+:where(.css-dev-only-do-not-override-42nv3w).ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+    padding: initial;
+}

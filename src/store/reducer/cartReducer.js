@@ -95,7 +95,7 @@ export const handleAddCart = createAsyncThunk(
             let addPayload = {};
             if(cartInfo.id) {
                 const matchIndex = cartInfo?.product?.findIndex(
-                    (product) => product.id === addedId
+                    (product, index) => product.id === addedId && cartInfo?.variant?.[index] === addedColor
                 )
 
                 const newProduct = cartInfo.product?.map((product) => {

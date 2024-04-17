@@ -7,7 +7,7 @@ import FilterBlog from "./FilterBlog";
 import useBlogPage from "./useBlogPage";
 
 const BlogPage = () => {
-  const { blogListProps } = useBlogPage();
+  const { blogListProps, blogFilterProps } = useBlogPage();
   return (
     <main className="main">
       <div
@@ -32,7 +32,7 @@ const BlogPage = () => {
         <div className="container">
           <div className="row">
             <BlogList {...blogListProps} />
-            <FilterBlog />
+            <FilterBlog {...blogFilterProps} />
           </div>
         </div>
       </div>

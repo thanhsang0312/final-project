@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import PATHS from "../../const/path";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLogout, handleShowModal } from "../../store/reducer/authReducer";
+import { clearCart } from "../../store/reducer/cartReducer";
 
 const HeaderTop = () => {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ const HeaderTop = () => {
   const _onSignOut = (e) => {
     e?.preventDefault();
     dispatch(handleLogout());
+    dispatch(clearCart());
     navigate(PATHS.HOME);
     // handleLogout();
   };

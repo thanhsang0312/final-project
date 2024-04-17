@@ -1,38 +1,66 @@
 import React from "react";
 import ContactInfo from "./ContactInfo";
 import ContactForm from "./ContactForm";
+import useQuery from "../../hooks/useQuery";
+import { pageService } from "../../services/pageServices";
+import Breadcrumb from "../../components/Breadcrumb";
+import { Link } from "react-router-dom";
+import PATHS from "../../const/path";
 
 const ContactPage = () => {
+  const { data: serviceData } = useQuery(() =>
+    pageService.getPageDataByName("service")
+  );
+  const titlePrimary = serviceData?.data?.title || "";
+  const subTitle = serviceData?.data?.subTitle || "";
+  const services = serviceData?.data?.data || {};
+  const {
+    address,
+    banner,
+    description,
+    email,
+    phone,
+    title,
+    working,
+    workingSunday,
+  } = services || {};
+
+  const infoProps = {
+    address,
+    description,
+    email,
+    phone,
+    title,
+    working,
+    workingSunday,
+  };
+
   return (
     <main className="main">
-      <nav aria-label="breadcrumb" className="breadcrumb-nav border-0 mb-0">
-        <div className="container">
-          <ol className="breadcrumb">
-            <li className="breadcrumb-item">
-              <a href="index.html">Home</a>
-            </li>
-            <li className="breadcrumb-item active" aria-current="page">
-              Contact us
-            </li>
-          </ol>
-        </div>
-      </nav>
+      {/* Breadcrumb */}
+      <Breadcrumb>
+        <Breadcrumb.Item>
+          <Link to={PATHS.HOME}>Home</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item isActive>About Us</Breadcrumb.Item>
+      </Breadcrumb>
+      {/* End breadcrumb */}
       <div className="container">
         <div
           className="page-header page-header-big text-center"
           style={{
-            backgroundImage: 'url("assets/images/contact-header-bg.jpg")',
+            backgroundImage: `url(${banner})`,
           }}
         >
           <h1 className="page-title text-white">
-            Contact us <span className="text-white">keep in touch with us</span>
+            {titlePrimary} <span className="text-white">{subTitle}</span>
           </h1>
         </div>
       </div>
       <div className="page-content pb-0">
         <div className="container">
           <div className="row">
-            <ContactInfo />
+            <ContactInfo {...infoProps} />
             <ContactForm />
           </div>
           <hr className="mt-4 mb-5" />

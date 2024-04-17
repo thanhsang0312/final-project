@@ -1,6 +1,40 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import PATHS from "../../const/path";
+import useQuery from "../../hooks/useQuery";
+import { pageService } from "../../services/pageServices";
 
 const Footer = () => {
+  const { data: footerData } = useQuery(() =>
+    pageService.getPageDataByName("footer")
+  );
+  const footer = footerData?.data?.data || {};
+  const { description, hotline, usefulLink, customerService, myAccount } =
+    footer || {};
+  const { title: usefulTitle, item: usefulItem } = usefulLink || {};
+  const { title: serviceTitle, item: serviceItem } = customerService || {};
+  const { title: accountTitle, item: accountItem } = myAccount || {};
+  const usefulPath = [
+    PATHS.ABOUT,
+    PATHS.PRODUCT.INDEX,
+    PATHS.FAQ,
+    PATHS.CONTACT,
+  ];
+
+  const servicePath = [
+    PATHS.PAYMENT,
+    PATHS.RETURNS,
+    PATHS.SHIPPING,
+    PATHS.PRIVACY,
+  ];
+
+  const accountPath = [
+    PATHS.PROFILE.INDEX,
+    PATHS.VIEW_CART,
+    PATHS.PROFILE.PROFILE_WISHLIST,
+    PATHS.PROFILE.PROFILE_ORDER,
+  ];
+
   return (
     <footer className="footer">
       <div className="footer-middle">
@@ -9,75 +43,57 @@ const Footer = () => {
             <div className="col-sm-6 col-lg-5">
               <div className="widget widget-about">
                 <img
-                  src="assets/images/logo.svg"
+                  src="/assets/images/logo.svg"
                   className="footer-logo"
                   alt="Footer Logo"
                   width={120}
                 />
-                <p>
-                  Praesent dapibus, neque id cursus ucibus, tortor neque egestas
-                  augue, eu vulputate magna eros eu erat.{" "}
-                </p>
+                <p>{description} </p>
                 <div className="widget-call">
                   <i className="icon-phone" /> Got Question? Call us 24/7{" "}
-                  <a href="tel:#">098 9596 912</a>
+                  <a href="tel:#">{hotline}</a>
                 </div>
               </div>
             </div>
             <div className="col-sm-6 col-lg-2 offset-lg-1">
               <div className="widget">
-                <h4 className="widget-title">Useful Links</h4>
+                <h4 className="widget-title">{usefulTitle}</h4>
                 <ul className="widget-list">
-                  <li>
-                    <a href="about.html">About Us</a>
-                  </li>
-                  <li>
-                    <a href="product.html">Product</a>
-                  </li>
-                  <li>
-                    <a href="faq.html">FAQs</a>
-                  </li>
-                  <li>
-                    <a href="contact.html">Contact us</a>
-                  </li>
+                  {usefulItem?.map((item, index) => {
+                    return (
+                      <li key={index}>
+                        <Link to={usefulPath[index]}>{item}</Link>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </div>
             <div className="col-sm-6 col-lg-2">
               <div className="widget">
-                <h4 className="widget-title">Customer Service</h4>
+                <h4 className="widget-title">{serviceTitle}</h4>
                 <ul className="widget-list">
-                  <li>
-                    <a href="payment-methods.html">Payment Methods</a>
-                  </li>
-                  <li>
-                    <a href="returns.html">Returns</a>
-                  </li>
-                  <li>
-                    <a href="shipping.html">Shipping</a>
-                  </li>
-                  <li>
-                    <a href="privacy-policy.html">Privacy Policy</a>
-                  </li>
+                  {serviceItem?.map((item, index) => {
+                    return (
+                      <li key={index}>
+                        <Link to={servicePath[index]}>{item}</Link>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </div>
             <div className="col-sm-6 col-lg-2">
               <div className="widget">
-                <h4 className="widget-title">My Account</h4>
+                <h4 className="widget-title">{accountTitle}</h4>
                 <ul className="widget-list">
-                  <li>
-                    <a href="dashboard.html">Account Details</a>
-                  </li>
-                  <li>
-                    <a href="cart.html">View Cart</a>
-                  </li>
-                  <li>
-                    <a href="dashboard.html">My Wishlist</a>
-                  </li>
-                  <li>
-                    <a href="dashboard.html">Track My Order</a>
-                  </li>
+                  {accountItem?.map((item, index) => {
+                    return (
+                      <li key={index}>
+                        <Link to={accountPath[index]}>{item}</Link>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </div>
