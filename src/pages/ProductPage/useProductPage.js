@@ -138,7 +138,8 @@ const useProductPage = () => {
     productToolboxProps,
     productListProps,
     productFilterProps,
-    paginationProps
+    paginationProps,
+    categories
   }
 }
 

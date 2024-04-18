@@ -27,7 +27,6 @@ const FilterBlog = ({
     handleCateFilterChange(id, isSelected);
   };
 
-  console.log("tags", tags);
   return (
     <aside className="col-lg-3">
       <div className="sidebar">

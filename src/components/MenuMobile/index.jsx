@@ -21,7 +21,6 @@ const MenuMobile = () => {
 
   const { data: categoriesData } = useQuery(productService.getCategories);
   const categories = categoriesData?.data?.products || [];
-  console.log("categories", categories);
 
   const _onTabChange = (e, tab) => {
     e?.preventDefault();
