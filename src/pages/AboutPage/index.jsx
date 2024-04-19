@@ -19,7 +19,6 @@ const AboutPage = () => {
     title3,
     titleBrand,
   } = aboutData || {};
-  console.log("aboutData", aboutData);
   const newDes3 = description3?.split(" ");
   const leadDesc3 = newDes3
     ?.filter((text, index) => text && index < 13)

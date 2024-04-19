@@ -7,6 +7,7 @@ const ProductFilter = ({
   currentPriceRange,
   handleCateFilterChange,
   handlePriceFilterChange,
+  cleanFilter,
 }) => {
   useEffect(() => {
     if (typeof noUiSlider === "object") {
@@ -23,7 +24,7 @@ const ProductFilter = ({
         margin: 200,
         range: {
           min: 0,
-          max: 1000,
+          max: 10000,
         },
         tooltips: true,
         format: wNumb({
@@ -43,16 +44,16 @@ const ProductFilter = ({
     handleCateFilterChange(id, isChecked);
   };
 
+  const _onCleanFilter = () => {
+    cleanFilter();
+  };
+
   return (
     <aside className="col-lg-3 order-lg-first">
       <div className="sidebar sidebar-shop">
         <div className="widget widget-clean">
           <label>Filters:</label>
-          <a
-            href="#"
-            className="sidebar-filter-clear"
-            onClick={() => handleCateFilterChange("")}
-          >
+          <a href="#" className="sidebar-filter-clear" onClick={_onCleanFilter}>
             Clean All
           </a>
         </div>

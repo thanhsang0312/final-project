@@ -24,10 +24,10 @@ const HomePage = () => {
       <SectionFeatured {...hotProductProps} />
       <div className="mb-7 mb-lg-11" />
       <SectionDealnOutlet {...dealProps} />
-      <SectionBrand {...brandProps} />
       <div className="container">
         <hr className="mt-3 mb-6" />
       </div>
+      <SectionBrand {...brandProps} />
       <div className="container">
         <hr className="mt-5 mb-6" />
       </div>

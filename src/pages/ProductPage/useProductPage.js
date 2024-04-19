@@ -96,6 +96,15 @@ const useProductPage = () => {
         }
      };
 
+    const cleanFilter = () => {
+        updateQueryString({
+            ...queryObject,
+            minPrice: undefined,
+            maxPrice: undefined,
+            category: undefined,
+        })
+    }
+
     const productToolboxProps = {
         // log: console.log("this is props for toolbox")
         showNumb: products?.length || 0,
@@ -120,10 +129,11 @@ const useProductPage = () => {
         queryObject.category : [queryObject.category],
         currentPriceRange: [
             queryObject.minPrice || 0,
-            queryObject.maxPrice || 1000
+            queryObject.maxPrice || 10000
         ],
         handleCateFilterChange,
         handlePriceFilterChange,
+        cleanFilter,
     }
 
     const paginationProps = {
