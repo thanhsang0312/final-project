@@ -1,7 +1,10 @@
 import axiosInstance from "../utils/axiosInstance"
 
 export const wishServices = {
-    addWishList(id = "") {
-        return axiosInstance.get(`/customer/white-list`);
+    addWishList(payload) {
+        return axiosInstance.post(`/customer/white-list`, payload);
     },
+    removeWishList(payload) {
+        return axiosInstance.delete(`customer/white-list`, payload);
+    }
 }

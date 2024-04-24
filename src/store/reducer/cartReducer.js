@@ -91,6 +91,7 @@ export const handleAddCart = createAsyncThunk(
         try {
             const { addedId, addedColor, addedQuantity, addedPrice } = actionPayload;
             const { cartInfo } = thunkApi.getState()?.cart || {};
+            console.log('thunkApi.getState()?.cart', thunkApi.getState()?.cart)
 
             let addPayload = {};
             if(cartInfo.id) {
@@ -149,7 +150,7 @@ export const handleAddCart = createAsyncThunk(
 
         } catch (error) {
             thunkApi.rejectWithValue(error);
-            message.success("Add to cart failed!")
+            message.error("Add to cart failed!")
         }
     }
 )

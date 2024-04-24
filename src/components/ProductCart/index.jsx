@@ -6,6 +6,7 @@ import { Empty } from "antd";
 import formatNumber, { formatUSD } from "../../utils/formatCurrency";
 import { useDispatch } from "react-redux";
 import { handleAddCart } from "../../store/reducer/cartReducer";
+import { handleAddToWishList } from "../../store/reducer/wishListReducer";
 
 const ImageWrapper = styled.div`
   width: 100%;
@@ -40,6 +41,14 @@ const ProductCart = ({
 
     dispatch(handleAddCart(addPayload));
   };
+
+  const _onAddToWishList = (e) => {
+    e?.preventDefault();
+    const addPayload = {
+      addedId: id,
+    };
+    dispatch(handleAddToWishList(addPayload));
+  };
   return (
     <div className="product product-2">
       <figure className="product-media">
@@ -66,7 +75,11 @@ const ProductCart = ({
           )}
         </Link>
         <div className="product-action-vertical">
-          <a href="#" className="btn-product-icon btn-wishlist btn-expandable">
+          <a
+            href="#"
+            className="btn-product-icon btn-wishlist btn-expandable"
+            onClick={_onAddToWishList}
+          >
             <span>add to wishlist</span>
           </a>
         </div>

@@ -1,35 +1,36 @@
+import { message } from "antd";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import PrivateRoute from "./components/PrivateRoute";
+import PATHS from "./const/path";
 import MainLayout from "./layout/MainLayout";
 import AboutPage from "./pages/AboutPage";
 import BlogPage from "./pages/BlogPage";
 import BlogSinglePage from "./pages/BlogSinglePage";
+import CheckoutPage from "./pages/CheckoutPage";
+import CheckoutSuccessPage from "./pages/CheckoutSuccessPage";
+import ContactPage from "./pages/ContactPage";
+import FAQPage from "./pages/FAQPage";
 import HomePage from "./pages/HomePage";
 import NotfoundPage from "./pages/NotfoundPage";
-import ViewCartPage from "./pages/ViewCartPage";
-import CheckoutSuccessPage from "./pages/CheckoutSuccessPage";
-import CheckoutPage from "./pages/CheckoutPage";
-import ContactPage from "./pages/ContactPage";
-import ProfilePage from "./pages/ProfilePage";
-import FAQPage from "./pages/FAQPage";
 import PaymentMethodPage from "./pages/PaymentMethodPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import ProductPage from "./pages/ProductPage";
-import ReturnsPage from "./pages/ReturnsPage";
-import ShippingPage from "./pages/ShippingPage";
-import PATHS from "./const/path";
-import PrivateRoute from "./components/PrivateRoute";
+import ProfilePage from "./pages/ProfilePage";
+import ProfileAddressPage from "./pages/ProfilePage/ProfileAddressPage";
+import ProfileChangePassword from "./pages/ProfilePage/ProfileChangePassword";
 import ProfileDetailPage from "./pages/ProfilePage/ProfileDetailPage";
 import ProfileOrderPage from "./pages/ProfilePage/ProfileOrderPage";
-import ProfileAddressPage from "./pages/ProfilePage/ProfileAddressPage";
 import ProfileWishlistPage from "./pages/ProfilePage/ProfileWishlistPage";
-import { useDispatch } from "react-redux";
-import { message } from "antd";
+import ReturnsPage from "./pages/ReturnsPage";
+import ShippingPage from "./pages/ShippingPage";
+import ViewCartPage from "./pages/ViewCartPage";
 import { handleGetProfile } from "./store/reducer/authReducer";
 import { handleGetCart } from "./store/reducer/cartReducer";
-import { useEffect } from "react";
 import tokenMethod from "./utils/token";
-import ProfileChangePassword from "./pages/ProfilePage/ProfileChangePassword";
+import { createWishList } from "./store/reducer/wishListReducer";
 
 function App() {
   const dispatch = useDispatch();
@@ -42,6 +43,7 @@ function App() {
     if (tokenMethod.get()) {
       dispatch(handleGetProfile());
       dispatch(handleGetCart());
+      dispatch(createWishList());
     }
   }, []);
 

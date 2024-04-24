@@ -1,15 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { MenuStyled } from "../StyledComponents";
 import { Link, NavLink } from "react-router-dom";
 import PATHS from "../../const/path";
 import { useMainContext } from "../../context/MainContext";
 import DropdownCart from "../DropdownCart";
 import useHeaderMiddle from "./useHeaderMiddle";
+import useProductPage from "../../pages/ProductPage/useProductPage";
+import useQuery from "../../hooks/useQuery";
+import { productService } from "../../services/productServices";
+import SearchInput from "../SearchInput";
+import useDebounce from "../../hooks/useDebounce";
 
 const HeaderMiddle = () => {
   const { handleShowMenuMobile, cartDropdownProps } = useHeaderMiddle();
-
-  // console.log("products", cartDropdownProps.products);
 
   return (
     <div className="header-middle sticky-header">
@@ -65,6 +68,7 @@ const HeaderMiddle = () => {
                 />
               </div>
             </form>
+            {/* <SearchInput /> */}
           </div>
           <DropdownCart {...cartDropdownProps} />
         </div>

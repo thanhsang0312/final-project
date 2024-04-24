@@ -82,7 +82,7 @@ const FilterBlog = ({
               popularBlogs.map((blog, index) => {
                 const { updateAt, name, image } = blog || {};
                 return (
-                  <li>
+                  <li key={index}>
                     <figure>
                       <a href="#">
                         <img src={image} alt={name} />
