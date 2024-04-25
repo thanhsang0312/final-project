@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import useBlogPage from "./useBlogPage";
 import moment from "moment";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import PATHS from "../../const/path";
 
 const BlogCateWrapper = styled.div`
   display: flex;
@@ -80,18 +80,18 @@ const FilterBlog = ({
           <ul className="posts-list">
             {popularBlogs?.length > 0 &&
               popularBlogs.map((blog, index) => {
-                const { updateAt, name, image } = blog || {};
+                const { updateAt, name, image, slug } = blog || {};
                 return (
                   <li key={index}>
                     <figure>
-                      <a href="#">
+                      <Link to={PATHS.BLOG.INDEX + `/${slug}`}>
                         <img src={image} alt={name} />
-                      </a>
+                      </Link>
                     </figure>
                     <div>
                       <span>{moment(updateAt).format("MMM Do YY")}</span>
                       <TextOverflow>
-                        <a href="#">{name}</a>
+                        <Link to={PATHS.BLOG.INDEX + `/${slug}`}>{name}</Link>
                       </TextOverflow>
                     </div>
                   </li>
@@ -114,7 +114,7 @@ const FilterBlog = ({
               tags.map((tag, index) => {
                 const { name, id } = tag || {};
                 return (
-                  <a href="#" key={id}>
+                  <a href="#" key={id || index}>
                     {name}
                   </a>
                 );

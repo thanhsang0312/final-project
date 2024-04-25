@@ -1,12 +1,11 @@
 import React from "react";
-import { MODAL_TYPE } from "../../const/general";
-import { useAuthContext } from "../../context/AuthContext";
-import tokenMethod from "../../utils/token";
-import { Link, useNavigate } from "react-router-dom";
-import PATHS from "../../const/path";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { MODAL_TYPE } from "../../const/general";
+import PATHS from "../../const/path";
 import { handleLogout, handleShowModal } from "../../store/reducer/authReducer";
 import { clearCart } from "../../store/reducer/cartReducer";
+import tokenMethod from "../../utils/token";
 
 const HeaderTop = () => {
   const navigate = useNavigate();

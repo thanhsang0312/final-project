@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { formatUSD } from "../../utils/formatCurrency";
 import { Link } from "react-router-dom";
-import PATHS from "../../const/path";
 import ProductColor from "../../components/ProductColor";
 import ProductQuantity from "../../components/ProductQuantity";
 import ShareLink from "../../components/ShareLink";
+import PATHS from "../../const/path";
+import { formatUSD } from "../../utils/formatCurrency";
+import tokenMethod from "../../utils/token";
+import { useDispatch } from "react-redux";
+import { handleShowModal } from "../../store/reducer/authReducer";
+import { MODAL_TYPE } from "../../const/general";
 
 const ProductDetail = ({
   productDetailData,
@@ -14,6 +17,7 @@ const ProductDetail = ({
   handleAddToCart,
   handleAddToWishList,
 }) => {
+  const dispatch = useDispatch();
   const { name, price, rating, description, color, category, stock } =
     productDetailData || {};
   const pathURL = window.location.href;
@@ -23,7 +27,11 @@ const ProductDetail = ({
   const _onAddToCart = (e) => {
     e?.preventDefault();
     e?.stopPropagation();
-    handleAddToCart?.();
+    if(tokenMethod.get()) {
+      handleAddToCart?.();
+    } else {
+      dispatch(handleShowModal(MODAL_TYPE.signin));
+    }
   };
 
   const _onAddToWishList = (e) => {

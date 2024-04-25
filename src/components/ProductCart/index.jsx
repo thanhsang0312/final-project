@@ -1,12 +1,15 @@
-import React from "react";
-import PATHS from "../../const/path";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
 import { Empty } from "antd";
-import formatNumber, { formatUSD } from "../../utils/formatCurrency";
+import React from "react";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import PATHS from "../../const/path";
 import { handleAddCart } from "../../store/reducer/cartReducer";
 import { handleAddToWishList } from "../../store/reducer/wishListReducer";
+import { formatUSD } from "../../utils/formatCurrency";
+import tokenMethod from "../../utils/token";
+import { handleShowModal } from "../../store/reducer/authReducer";
+import { MODAL_TYPE } from "../../const/general";
 
 const ImageWrapper = styled.div`
   width: 100%;
@@ -32,14 +35,18 @@ const ProductCart = ({
 
   const _onAddToCart = (e) => {
     e?.preventDefault();
-    const addPayload = {
-      addedId: id,
-      addedColor: color?.[0] || "",
-      addedQuantity: 1,
-      addedPrice: price - discount,
-    };
+    if (tokenMethod.get()) {
+      const addPayload = {
+        addedId: id,
+        addedColor: color?.[0] || "",
+        addedQuantity: 1,
+        addedPrice: price - discount,
+      };
 
-    dispatch(handleAddCart(addPayload));
+      dispatch(handleAddCart(addPayload));
+    } else {
+      dispatch(handleShowModal(MODAL_TYPE.signin));
+    }
   };
 
   const _onAddToWishList = (e) => {
